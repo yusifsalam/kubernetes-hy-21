@@ -8,4 +8,4 @@ RUN yarn --frozen-lockfile --production && yarn cache clean
 COPY . .
 RUN yarn build
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start:js"]
