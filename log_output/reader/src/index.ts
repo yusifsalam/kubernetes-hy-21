@@ -1,11 +1,10 @@
 import fastify, { FastifyInstance } from "fastify";
-import { getHash } from "./utils/getHash";
+import { getFile } from "./utils/getFile";
 
-const server = fastify({ logger: true });
+const server: FastifyInstance = fastify({ logger: true });
 
-server.get("/", async (_req, res) => {
-  const hash = getHash();
-  console.log(hash);
+server.get("/", (_req, res) => {
+  const hash = getFile();
   res.send(hash);
 });
 

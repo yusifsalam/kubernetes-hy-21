@@ -1,0 +1,31 @@
+{
+  "name": "log-output-writer",
+  "version": "1.0.0",
+  "description": "Log output writer application for DevOps with Kubernetes course",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node ./src/index.ts",
+    "dev": "nodemon ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusifsalam/kubernetes-hy-21.git"
+  },
+  "author": "Yusif Salam-zade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yusifsalam/kubernetes-hy-21/issues"
+  },
+  "homepage": "https://github.com/yusifsalam/kubernetes-hy-21#readme",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/uuid": "^8.3.1",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  }
+}

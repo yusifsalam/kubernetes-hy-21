@@ -12,6 +12,17 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+        - name: shared-log-output
+          emptyDir: {}
       containers:
-        - name: log-output
-          image: salamy1/log-output:v0.1
+        - name: log-output-reader
+          image: salamy1/log-reader:v0.1.7
+          volumeMounts:
+            - mountPath: /usr/src/app/files
+              name: shared-log-output
+        - name: log-output-writer
+          image: salamy1/log-writer:v0.1
+          volumeMounts:
+            - mountPath: /usr/src/app/files
+              name: shared-log-output
