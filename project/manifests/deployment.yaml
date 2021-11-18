@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-project
+  template:
+    metadata:
+      labels:
+        app: kube-project
+    spec:
+      containers:
+        - name: kube-project
+          image: salamy1/kube-project:v0.2
