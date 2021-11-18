@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yusifsalam/kubernetes-hy-21#readme",
   "dependencies": {
+    "fastify": "^3.24.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
