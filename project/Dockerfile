@@ -7,5 +7,6 @@ RUN yarn --frozen-lockfile --production && yarn cache clean
 
 COPY . .
 RUN yarn build
+EXPOSE 3000
 
 CMD ["yarn", "start:js"]
