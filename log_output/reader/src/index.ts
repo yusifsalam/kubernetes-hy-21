@@ -1,11 +1,12 @@
 import fastify, { FastifyInstance } from "fastify";
-import { getFile } from "./utils/getFile";
+import { getHash, getPongs } from "./utils/getFile";
 
 const server: FastifyInstance = fastify({ logger: true });
 
 server.get("/", (_req, res) => {
-  const hash = getFile();
-  res.send(hash);
+  const hash = getHash();
+  const pongs = getPongs();
+  res.send(hash.concat("\n", "Ping / Pongs: ", pongs));
 });
 
 const start = async () => {
