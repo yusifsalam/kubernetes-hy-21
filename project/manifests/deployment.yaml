@@ -13,11 +13,13 @@ spec:
         app: kube-project
     spec:
       containers:
-        - name: kube-project
-          image: salamy1/kube-project:v0.7
+        - name: kube-project-api
+          image: salamy1/project-api:v1.10
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files
+        - name: kube-project-client
+          image: salamy1/project-client:v1.11
       volumes:
         - name: random-image
           persistentVolumeClaim:

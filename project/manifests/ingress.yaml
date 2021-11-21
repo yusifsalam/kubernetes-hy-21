@@ -6,10 +6,17 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /api
             pathType: Prefix
             backend:
               service: 
                 name: kube-project-svc
                 port:
                   number: 2345
+          - path: /
+            pathType: Prefix
+            backend: 
+              service: 
+                name: kube-project-svc
+                port:
+                  number: 2346
