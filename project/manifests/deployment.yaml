@@ -14,4 +14,11 @@ spec:
     spec:
       containers:
         - name: kube-project
-          image: salamy1/kube-project:v0.3.2
+          image: salamy1/kube-project:v0.6.16
+          volumeMounts:
+            - name: random-image
+              mountPath: /usr/src/app/files
+      volumes:
+        - name: random-image
+          persistentVolumeClaim:
+            claimName: project-claim

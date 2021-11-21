@@ -1,8 +1,24 @@
 import fastify, { FastifyInstance } from "fastify";
+import autoload from "fastify-autoload";
+import fastifyNextJS from "fastify-nextjs";
 import fastifyStatic, { FastifyStaticOptions } from "fastify-static";
 import path from "path";
 
-const server: FastifyInstance = fastify({ logger: true });
+const server: FastifyInstance = fastify({
+  logger: {
+    prettyPrint: true,
+  },
+  pluginTimeout: 20000,
+});
+
+server
+  .register(fastifyNextJS, {
+    dev: process.env.NODE_ENV !== "production",
+    noServeAssets: false,
+  })
+  .after(() => {
+    server.next("/image");
+  });
 
 const fastifyStaticOptions: FastifyStaticOptions = {
   root: path.join(process.cwd(), "public"),
@@ -10,9 +26,8 @@ const fastifyStaticOptions: FastifyStaticOptions = {
 };
 
 server.register(fastifyStatic, fastifyStaticOptions);
-
-server.get("/", async (_req, res) => {
-  return res.sendFile("hello.html");
+server.register(autoload, {
+  dir: path.join(__dirname, "routes"),
 });
 
 const start = async () => {
