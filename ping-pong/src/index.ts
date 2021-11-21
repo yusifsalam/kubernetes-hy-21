@@ -1,14 +1,12 @@
 import fastify, { FastifyInstance } from "fastify";
-import { writePongsToFile } from "./utils/writeFile";
 
 const server: FastifyInstance = fastify({});
 
 let pongs: number = 0;
 
 server.get("/pingpong", async (_req, res) => {
-  ++pongs;
-  await writePongsToFile("pongs.txt", pongs);
-  res.send(`pong ${pongs}`);
+  // await writePongsToFile("pongs.txt", pongs);
+  res.send(`pong ${++pongs}`);
 });
 
 const start = async () => {

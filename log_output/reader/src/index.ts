@@ -1,12 +1,18 @@
 import fastify, { FastifyInstance } from "fastify";
-import { getHash, getPongs } from "./utils/getFile";
+import { getHash } from "./utils/getFile";
+const fetch = require("node-fetch");
 
 const server: FastifyInstance = fastify({ logger: true });
 
-server.get("/", (_req, res) => {
+server.get("/", async (_req, res) => {
   const hash = getHash();
-  const pongs = getPongs();
-  res.send(hash.concat("\n", "Ping / Pongs: ", pongs));
+  // const pongs = getPongs();
+  const pongsResponse: Response = await fetch(
+    "http://ping-pong-svc:2345/pingpong"
+  );
+  const body = await pongsResponse.text();
+  console.log("pongs in http", body);
+  res.send(hash.concat("\n", "Ping / Pongs: ", body));
 });
 
 const start = async () => {
