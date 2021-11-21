@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kube-project
-          image: salamy1/kube-project:v0.6.16
+          image: salamy1/kube-project:v0.7
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files
