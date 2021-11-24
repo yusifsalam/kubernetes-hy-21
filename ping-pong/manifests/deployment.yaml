@@ -15,7 +15,16 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: salamy1/ping-pong:v0.3.1
+          image: salamy1/ping-pong:v0.4.6
+          envFrom:
+            - configMapRef:
+                name: pg-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: pg-password
+                    key: POSTGRES_PASSWORD
           # volumeMounts:
           #   - name: shared-log-output
           #     mountPath: /usr/src/app/files
