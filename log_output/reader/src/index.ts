@@ -6,13 +6,13 @@ const server: FastifyInstance = fastify({ logger: true });
 
 server.get("/", async (_req, res) => {
   const hash = getHash();
-  // const pongs = getPongs();
   const pongsResponse: Response = await fetch(
     "http://ping-pong-svc:2345/pingpong"
   );
   const body = await pongsResponse.text();
-  console.log("pongs in http", body);
-  res.send(hash.concat("\n", "Ping / Pongs: ", body));
+  const msg = process.env.MESSAGE || "No message env!";
+  const returnStr = msg.concat("\n", hash, "\n", "Ping / Pongs: ", body);
+  res.send(returnStr);
 });
 
 const start = async () => {
