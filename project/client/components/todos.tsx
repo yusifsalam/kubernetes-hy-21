@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 interface Todo {
   id: number;
-  payload: string;
+  name: string;
 }
 
 const Todos = () => {
@@ -24,7 +24,8 @@ const Todos = () => {
       method: "post",
       body: newTodo,
     });
-    setTodos([...todos, await todo.json()]);
+    const todoJson = (await todo.json()).rows[0];
+    setTodos([...todos, todoJson]);
     setNewTodo(null);
   };
 
@@ -55,7 +56,7 @@ const Todos = () => {
       <div>
         <ul className="list-disc">
           {todos.map((todo) => (
-            <li key={todo.id}>{todo.payload}</li>
+            <li key={todo.id}>{todo.name}</li>
           ))}
         </ul>
       </div>

@@ -1,13 +1,21 @@
 import fastify, { FastifyInstance } from "fastify";
 import autoload from "fastify-autoload";
+import { fastifyPostgres } from "fastify-postgres";
 import fastifyStatic, { FastifyStaticOptions } from "fastify-static";
 import path from "path";
+import { initDb, config } from "./db";
 
 const server: FastifyInstance = fastify({
   logger: {
     prettyPrint: true,
   },
   pluginTimeout: 20000,
+});
+
+const connectionString = `postgres://${config.user}:${config.password}@${config.host}:${config.port}/${config.database}`;
+
+server.register(fastifyPostgres, {
+  connectionString,
 });
 
 const fastifyStaticOptions: FastifyStaticOptions = {
@@ -26,9 +34,12 @@ const start = async () => {
 
     const address = server.server.address();
     const port = typeof address === "string" ? address : address?.port;
+    const pgClient = await server.pg.connect();
+    await initDb(pgClient);
     console.log(`Server started on port ${port}`);
   } catch (err) {
     server.log.error(err);
+    await server.pg.Client.end();
     process.exit(1);
   }
 };

@@ -15,12 +15,21 @@ spec:
     spec:
       containers:
         - name: kube-project-api
-          image: salamy1/project-api:v1.10
+          image: salamy1/project-api:v1.2.2
+          envFrom:
+            - configMapRef:
+                name: pg-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: pg-password
+                    key: POSTGRES_PASSWORD
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files
         - name: kube-project-client
-          image: salamy1/project-client:v1.11
+          image: salamy1/project-client:v1.2.3
       volumes:
         - name: random-image
           persistentVolumeClaim:

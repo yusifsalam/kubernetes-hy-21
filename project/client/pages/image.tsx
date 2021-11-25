@@ -1,10 +1,5 @@
 import Todos from "../components/todos";
 
-interface Todo {
-  id: number;
-  payload: string;
-}
-
 const ImageOfTheDayPage = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-2">
