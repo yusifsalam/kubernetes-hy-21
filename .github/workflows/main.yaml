@@ -26,16 +26,18 @@ jobs:
     - run: gcloud --quiet auth configure-docker
     - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
     - name: Build
+      working-directory: ./gke/example
       run: |-
         docker build \
           --tag "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
-          /gke/example
+          .
     - name: Publish
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Set up Kustomize
       uses: imranismail/setup-kustomize@v1
     - name: Deploy
+      working-directory: ./gke/example
       run: |-
         kustomize edit set image gcr.io/PROJECT_ID/IMAGE=gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
         kustomize build . | kubectl apply -f -
