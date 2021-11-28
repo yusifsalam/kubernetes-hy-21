@@ -8,8 +8,8 @@ resources:
 - manifests/deployment.yaml
 - manifests/service.yaml
 - manifests/ingress.yaml
-- manifests/persistenvolume.yaml
-- manifests/persistenvolumeclaim.yaml
+- manifests/persistentvolume.yaml
+- manifests/persistentvolumeclaim.yaml
 - manifests/cron.yaml
 images:
 - name: project/api
