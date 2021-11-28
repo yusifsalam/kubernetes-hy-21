@@ -21,7 +21,7 @@ jobs:
         sudo chmod 0755 sops
         sudo mv sops /bin
     - name: Create age key file
-      run: 'echo "$AGE_KEY" > "$HOME"/keys.txt'
+      run: 'echo "$AGE_KEY" > "$HOME"/keys.txt && echo "$HOME"'
       shell: bash
       env:
         AGE_KEY: ${{secrets.AGE_KEY}}
@@ -54,10 +54,9 @@ jobs:
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE-client:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Decrypt sealed secret
+      shell: bash
       run: |-
-        sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
-      env: 
-        SOPS_AGE_KEY_FILE: "$HOME/keys.txt"
+        SOPS_AGE_KEY_FILE="$HOME"/keys.txt sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
     - name: Set up Kustomize
       uses: imranismail/setup-kustomize@v1
     - name: Deploy
