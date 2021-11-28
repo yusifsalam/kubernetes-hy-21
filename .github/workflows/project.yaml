@@ -20,7 +20,9 @@ jobs:
         sudo wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux -O sops
         sudo chmod 0755 sops
         sudo mv sops /bin
-    - run: 'echo "$AGE_KEY" > keys.txt'
+    - name: Create age key file
+      working-directory: ./project
+      run: 'echo "$AGE_KEY" > keys.txt'
       shell: bash
       env:
         AGE_KEY: ${{secrets.AGE_KEY}}
@@ -55,6 +57,7 @@ jobs:
     - name: Decrypt sealed secret
       run: |-
         sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
+      working-directory: ./project
       env: 
         SOPS_AGE_KEY_FILE: "./keys.txt"
     - name: Set up Kustomize
