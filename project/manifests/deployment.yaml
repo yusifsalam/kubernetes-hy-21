@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: kube-project-api
-          image: salamy1/project-api:v1.2.2
+          image: project/api
           envFrom:
             - configMapRef:
                 name: pg-config
@@ -29,7 +29,7 @@ spec:
             - name: random-image
               mountPath: /usr/src/app/files
         - name: kube-project-client
-          image: salamy1/project-client:v1.2.3
+          image: project/client
       volumes:
         - name: random-image
           persistentVolumeClaim:

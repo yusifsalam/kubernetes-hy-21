@@ -1,0 +1,63 @@
+name: Release project application
+
+on:
+  push:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  IMAGE: project
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup sops
+      run: |
+        sudo wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux -O sops
+        sudo chmod 0755 sops
+        sudo mv sops /bin
+    - run: 'echo "$AGE_KEY" > keys.txt'
+      shell: bash
+      env:
+        AGE_KEY: ${{secrets.AGE_KEY}}
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GKE_PROJECT }}
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        export_default_credentials: true        
+    - run: gcloud --quiet auth configure-docker
+    - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    - name: Build backend
+      working-directory: ./project/api
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE-api:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          .
+    - name: Build frontend
+      working-directory: ./project/client
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE-client:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          .
+    - name: Publish
+      run: |-
+        docker push "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+    - name: Decrypt sealed secret
+      run: |-
+        SOPS_AGE_KEY_FILE=$(pwd)/keys.txt sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
+    - name: Set up Kustomize
+      uses: imranismail/setup-kustomize@v1
+    - name: Deploy
+      working-directory: ./gke/example
+      run: |-
+        kustomize edit set image gcr.io/PROJECT_ID/IMAGE=gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+        kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment $IMAGE
+        kubectl get services -o wide
