@@ -21,7 +21,7 @@ jobs:
         sudo chmod 0755 sops
         sudo mv sops /bin
     - name: Create age key file
-      run: 'echo "$AGE_KEY" > $HOME/keys.txt'
+      run: 'echo "$AGE_KEY" > "$HOME"/keys.txt'
       shell: bash
       env:
         AGE_KEY: ${{secrets.AGE_KEY}}
