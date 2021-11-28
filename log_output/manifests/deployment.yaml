@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: log-output-reader
-          image: salamy1/log-reader:v0.2.7
+          image: salamy1/log-reader:v0.3
           volumeMounts:
             - mountPath: /usr/src/app/files
               name: shared-log-output
@@ -27,7 +27,7 @@ spec:
                       name: app-config
                       key: message
         - name: log-output-writer
-          image: salamy1/log-writer:v0.1
+          image: salamy1/log-writer:v0.3
           volumeMounts:
             - mountPath: /usr/src/app/files
               name: shared-log-output
