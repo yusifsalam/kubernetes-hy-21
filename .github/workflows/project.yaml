@@ -54,7 +54,9 @@ jobs:
         docker push "gcr.io/$PROJECT_ID/$IMAGE-client:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Decrypt sealed secret
       run: |-
-        SOPS_AGE_KEY_FILE=$(pwd)/keys.txt sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
+        sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
+      env: 
+        SOPS_AGE_KEY_FILE: "./keys.txt"
     - name: Set up Kustomize
       uses: imranismail/setup-kustomize@v1
     - name: Deploy
