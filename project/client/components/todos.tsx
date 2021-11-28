@@ -11,7 +11,7 @@ const Todos = () => {
 
   useEffect(() => {
     const getToDos = async () => {
-      const data = await fetch(`http://localhost:8081/api/todos`);
+      const data = await fetch(`http://kube-project-svc:2345/api/todos`);
       setTodos(await data.json());
     };
     getToDos();
@@ -20,7 +20,7 @@ const Todos = () => {
   const handleAdd = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const todo = await fetch(`http://localhost:8081/api/todos`, {
+    const todo = await fetch(`http://kube-project-svc:2345/api/todos`, {
       method: "post",
       body: newTodo,
     });
