@@ -46,9 +46,12 @@ jobs:
         docker build \
           --tag "gcr.io/$PROJECT_ID/$IMAGE-client:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
           .
-    - name: Publish
+    - name: Publish backend
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE-api:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+    - name: Publish frontend
+      run: |-
+        docker push "gcr.io/$PROJECT_ID/$IMAGE-client:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Decrypt sealed secret
       run: |-
         SOPS_AGE_KEY_FILE=$(pwd)/keys.txt sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
