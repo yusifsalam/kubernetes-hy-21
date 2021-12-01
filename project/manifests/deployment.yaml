@@ -18,7 +18,7 @@ spec:
           image: project/api
           resources:
             limits:
-              cpu: "200m"
+              cpu: "300m"
               memory: "300Mi"
           envFrom:
             - configMapRef:
@@ -36,7 +36,7 @@ spec:
           image: project/client
           resources:
             limits:
-              cpu: "200m"
+              cpu: "300m"
               memory: "700Mi"
       volumes:
         - name: random-image
