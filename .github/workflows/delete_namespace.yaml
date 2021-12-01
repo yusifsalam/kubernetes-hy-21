@@ -16,36 +16,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup sops
-      run: |
-        sudo wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux -O sops
-        sudo chmod 0755 sops
-        sudo mv sops /bin
-    - name: Create age key file
-      run: 'echo "$AGE_KEY" > "$HOME"/keys.txt && echo "$HOME"'
-      shell: bash
-      env:
-        AGE_KEY: ${{secrets.AGE_KEY}}
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        project_id: ${{ secrets.GKE_PROJECT }}
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        export_default_credentials: true        
-    - run: gcloud --quiet auth configure-docker
-    - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
-    - name: Decrypt sealed secret
-      shell: bash
-      run: |-
-        SOPS_AGE_KEY_FILE="$HOME"/keys.txt sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
-    - name: Set up Kustomize
-      uses: imranismail/setup-kustomize@v1
-    - name: Delete namespace
-      working-directory: ./project
-      run: |-
-        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-        kustomize edit set namespace ${GITHUB_REF#refs/heads/}
-        kubectl delete -k .
-        kustomize delete namespace ${GITHUB_REF#refs/heads/}
+      - name: Setup sops
+        run: |
+          sudo wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux -O sops
+          sudo chmod 0755 sops
+          sudo mv sops /bin
+      - name: Create age key file
+        run: 'echo "$AGE_KEY" > "$HOME"/keys.txt && echo "$HOME"'
+        shell: bash
+        env:
+          AGE_KEY: ${{secrets.AGE_KEY}}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GKE_PROJECT }}
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          export_default_credentials: true
+      - run: gcloud --quiet auth configure-docker
+      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - name: Decrypt sealed secret
+        shell: bash
+        run: |-
+          SOPS_AGE_KEY_FILE="$HOME"/keys.txt sops -d project/manifests/secret.enc.yaml > project/manifests/secret.yaml
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v1
+      - name: Delete namespace
+        working-directory: ./project
+        run: |-
+          kubectl config set-context --current --namespace=${{github.event.ref}}
+          kustomize edit set namespace ${{github.event.ref}}
+          kubectl delete -k .
+          kustomize delete namespace ${{github.event.ref}}
