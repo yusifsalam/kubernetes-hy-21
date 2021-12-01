@@ -17,23 +17,30 @@ spec:
       containers:
         - name: log-output-reader
           image: salamy1/log-reader:v0.3
+          resources:
+            limits:
+              cpu: "150m"
+              memory: "100Mi"
           volumeMounts:
             - mountPath: /usr/src/app/files
               name: shared-log-output
           env:
-              - name: MESSAGE
-                valueFrom:
-                    configMapKeyRef:
-                      name: app-config
-                      key: message
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: message
         - name: log-output-writer
           image: salamy1/log-writer:v0.3
+          resources:
+            limits:
+              cpu: "150m"
+              memory: "100Mi"
           volumeMounts:
             - mountPath: /usr/src/app/files
               name: shared-log-output
-          
+
       volumes:
         - name: shared-log-output
           persistentVolumeClaim:
             claimName: log-output-claim
-      
