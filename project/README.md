@@ -46,3 +46,7 @@ Cons:
 I chose DIY because it's cooler and I already have it implemented. Doing everything yourself also means you get to make all the possible mistakes and maybe even learn from them.
 
 ![i like to live dangerously](./assets/danger.jpeg)
+
+## Exercise 3.10: Project v1.6
+
+![log](./assets/log.png)
