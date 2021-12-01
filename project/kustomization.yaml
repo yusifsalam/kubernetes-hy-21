@@ -2,18 +2,19 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: project
 resources:
-- manifests/namespace.yaml
-- manifests/secret.yaml
-- manifests/statefulset.yaml
-- manifests/configmap.yaml
-- manifests/deployment.yaml
-- manifests/service.yaml
-- manifests/ingress.yaml
-- manifests/persistentvolume.yaml
-- manifests/persistentvolumeclaim.yaml
-- manifests/cron.yaml
+  - manifests/namespace.yaml
+  - manifests/secret.yaml
+  - manifests/statefulset.yaml
+  - manifests/configmap.yaml
+  - manifests/deployment.yaml
+  - manifests/service.yaml
+  - manifests/ingress.yaml
+  - manifests/persistentvolume.yaml
+  - manifests/persistentvolumeclaim.yaml
+  - manifests/hpa.yaml
+  - manifests/cron.yaml
 images:
-- name: project/api
-  newName: salamy1/kube-project-api
-- name: project/client
-  newName: salamy1/kube-project-client
+  - name: project/api
+    newName: salamy1/kube-project-api
+  - name: project/client
+    newName: salamy1/kube-project-client
