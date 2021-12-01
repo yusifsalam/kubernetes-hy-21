@@ -5,7 +5,7 @@ const ImageOfTheDayPage = () => {
     <div className="flex flex-col justify-center items-center gap-2">
       <p>Hello, world</p>
       <img
-        src="http://localhost:8081/api/randomImage"
+        src="/api/randomImage"
         alt="Image of the day"
         className="rounded-lg max-w-md"
       />
