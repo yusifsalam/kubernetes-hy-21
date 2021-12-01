@@ -16,20 +16,28 @@ spec:
       containers:
         - name: kube-project-api
           image: project/api
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "300Mi"
           envFrom:
             - configMapRef:
                 name: pg-config
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
-                  secretKeyRef:
-                    name: pg-password
-                    key: POSTGRES_PASSWORD
+                secretKeyRef:
+                  name: pg-password
+                  key: POSTGRES_PASSWORD
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files
         - name: kube-project-client
           image: project/client
+          resources:
+            limits:
+              cpu: "700m"
+              memory: "700Mi"
       volumes:
         - name: random-image
           persistentVolumeClaim:
