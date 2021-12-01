@@ -1,0 +1,37 @@
+name: Delete namespace on branch removal
+
+on:
+  push:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  IMAGE_CLIENT: project-dep-client
+  IMAGE_API: project-dep-api
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GKE_PROJECT }}
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        export_default_credentials: true        
+    - run: gcloud --quiet auth configure-docker
+    - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    - name: Set up Kustomize
+      uses: imranismail/setup-kustomize@v1
+    - name: Delete namespace
+      working-directory: ./project
+      run: |-
+        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+        kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+        kustomize delete -k .
+        kustomize delete namespace ${GITHUB_REF#refs/heads/}
