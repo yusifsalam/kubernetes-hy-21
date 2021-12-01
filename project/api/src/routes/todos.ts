@@ -16,6 +16,7 @@ const todoController: FastifyPluginAsync = async (fastify): Promise<void> => {
       "insert into todos(name) values($1) returning *",
       [req.body]
     );
+    req.log.info(`Created new Todo with text ${req.body}`);
     res.send(newTodo);
   });
 };

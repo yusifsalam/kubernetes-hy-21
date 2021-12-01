@@ -7,6 +7,19 @@ import { initDb, config } from "./db";
 
 const server: FastifyInstance = fastify({
   logger: {
+    level: "info",
+    serializers: {
+      req(request) {
+        return {
+          method: request.method,
+          url: request.url,
+          headers: request.headers,
+          hostname: request.hostname,
+          remoteAddress: request.ip,
+          remotePort: request.socket.remotePort,
+        };
+      },
+    },
     prettyPrint: true,
   },
   pluginTimeout: 20000,
