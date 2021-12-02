@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: log-output-reader
-          image: salamy1/log-reader:v0.3
+          image: salamy1/log-reader:v0.4
           resources:
             limits:
               cpu: "150m"
@@ -30,6 +30,12 @@ spec:
                 configMapKeyRef:
                   name: app-config
                   key: message
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
         - name: log-output-writer
           image: salamy1/log-writer:v0.3
           resources:

@@ -15,6 +15,12 @@ server.get("/", async (_req, res) => {
   res.send(returnStr);
 });
 
+server.get("/healthz", async (_req, res) => {
+  const pingpongReachable = await fetch("http://ping-pong-svc:2345/healthz");
+  const resJson = await pingpongReachable.json();
+  res.send({ status: resJson });
+});
+
 const start = async () => {
   try {
     await server.listen(3000, "0.0.0.0");

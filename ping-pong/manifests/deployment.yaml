@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: salamy1/ping-pong:v0.5
+          image: salamy1/ping-pong:v0.6
           resources:
             limits:
               cpu: "150m"
@@ -29,10 +29,9 @@ spec:
                 secretKeyRef:
                   name: pg-password
                   key: POSTGRES_PASSWORD
-          # volumeMounts:
-          #   - name: shared-log-output
-          #     mountPath: /usr/src/app/files
-      # volumes:
-      #   - name: shared-log-output
-      #     persistentVolumeClaim:
-      #       claimName: log-output-claim
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
