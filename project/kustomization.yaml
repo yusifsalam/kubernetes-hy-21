@@ -6,15 +6,16 @@ resources:
   - manifests/secret.yaml
   - manifests/statefulset.yaml
   - manifests/configmap.yaml
-  - manifests/deployment.yaml
+  - manifests/rollout.yaml
   - manifests/service.yaml
   - manifests/ingress.yaml
   - manifests/persistentvolume.yaml
   - manifests/persistentvolumeclaim.yaml
   - manifests/hpa.yaml
   - manifests/cron.yaml
+  - manifests/analysistemplate.yaml
 images:
   - name: project/api
-    newName: salamy1/kube-project-api
+    newName: salamy1/project-api:v1.7.10
   - name: project/client
-    newName: salamy1/kube-project-client
+    newName: salamy1/project-client:v1.7.0

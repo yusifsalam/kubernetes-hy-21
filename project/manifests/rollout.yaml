@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: project
+  name: project-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kube-project
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - analysis:
+            templates:
+              - templateName: cpu-rate
+  template:
+    metadata:
+      labels:
+        app: kube-project
+    spec:
+      containers:
+        - name: kube-project-api
+          image: project/api
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "300Mi"
+          envFrom:
+            - configMapRef:
+                name: pg-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-password
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: random-image
+              mountPath: /usr/src/app/files
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 4000
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            httpGet:
+              path: /healthz
+              port: 4000
+        - name: kube-project-client
+          image: project/client
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "700Mi"
+      volumes:
+        - name: random-image
+          persistentVolumeClaim:
+            claimName: project-claim
