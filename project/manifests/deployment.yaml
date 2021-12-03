@@ -32,6 +32,18 @@ spec:
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 4000
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 4000
         - name: kube-project-client
           image: project/client
           resources:

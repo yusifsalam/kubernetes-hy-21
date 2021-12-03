@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance } from "fastify";
+import fastify, { FastifyError, FastifyInstance } from "fastify";
 import autoload from "fastify-autoload";
 import { fastifyPostgres } from "fastify-postgres";
 import fastifyStatic, { FastifyStaticOptions } from "fastify-static";
@@ -52,8 +52,12 @@ const start = async () => {
     console.log(`Server started on port ${port}`);
   } catch (err) {
     server.log.error(err);
-    await server.pg.Client.end();
-    process.exit(1);
+    const error = err as FastifyError;
+    console.log("error", error);
+    if (error.code !== "ECONNREFUSED" && error.code !== "ENOTFOUND") {
+      await server.pg.Client.end();
+      process.exit(1);
+    }
   }
 };
 
