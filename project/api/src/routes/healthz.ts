@@ -7,7 +7,8 @@ const healthzRoute: FastifyPluginAsync = async (fastify): Promise<void> => {
       console.log("client could not be reached");
       res.code(500).send("failed to connect to database");
     } else {
-      res.send({ status: "ok" });
+      client.release();
+      res.send({ status: "ok", listenerCount: client.listenerCount });
     }
   });
 };
