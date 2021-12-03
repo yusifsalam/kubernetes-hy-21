@@ -50,3 +50,7 @@ I chose DIY because it's cooler and I already have it implemented. Doing everyth
 ## Exercise 3.10: Project v1.6
 
 ![log](./assets/log.png)
+
+## Exercise 4.03: Prometheus
+
+![prometheus](./assets/prometheus.png)
