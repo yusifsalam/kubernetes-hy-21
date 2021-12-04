@@ -57,4 +57,4 @@ I chose DIY because it's cooler and I already have it implemented. Doing everyth
 
 ## Exercise 4.06: Project 2.0
 
-[![Video demo](./assets/demo-thumb.png)](./assets/demo.mov)
+https://user-images.githubusercontent.com/42574232/144722192-6e638dfe-8dd1-4602-b573-95b1a0ea211b.mov
