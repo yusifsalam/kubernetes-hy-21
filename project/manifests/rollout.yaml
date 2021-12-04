@@ -23,6 +23,7 @@ spec:
       containers:
         - name: kube-project-api
           image: project/api
+          imagePullPolicy: Always
           resources:
             limits:
               cpu: "300m"
@@ -36,6 +37,8 @@ spec:
                 secretKeyRef:
                   name: pg-password
                   key: POSTGRES_PASSWORD
+            - name: NATS_URL
+              value: nats://my-nats.default:4222
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files

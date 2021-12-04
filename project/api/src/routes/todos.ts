@@ -1,6 +1,11 @@
 import { FastifyPluginAsync, FastifyRequest } from "fastify";
+import { connect, StringCodec } from "nats";
 
 const todoController: FastifyPluginAsync = async (fastify): Promise<void> => {
+  const nc = await connect({
+    servers: process.env.NATS_URL || "nats://nats:4222",
+  });
+  const sc = StringCodec();
   fastify.get("/api/todos", async (_req, res) => {
     const client = await fastify.pg.connect();
     const todosRes = await client.query("select * from todos;");
@@ -17,6 +22,10 @@ const todoController: FastifyPluginAsync = async (fastify): Promise<void> => {
       [req.body]
     );
     req.log.info(`Created new Todo with text ${req.body}`);
+    nc.publish(
+      "todo_update",
+      sc.encode(`Created new Todo with text ${req.body}`)
+    );
     res.send(newTodo);
   });
 
@@ -36,6 +45,10 @@ const todoController: FastifyPluginAsync = async (fastify): Promise<void> => {
       res.code(500).send({ status: "failure" });
     }
     req.log.info(`Toggled Todo with id ${id} done param`);
+    nc.publish(
+      "todo_update",
+      sc.encode(`Toggled Todo with id ${id} done param`)
+    );
     res.send({ status: "success" });
   });
 };

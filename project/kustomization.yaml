@@ -16,6 +16,6 @@ resources:
   - manifests/analysistemplate.yaml
 images:
   - name: project/api
-    newName: salamy1/project-api:v1.8.3
+    newName: salamy1/project-api:v1.9.1
   - name: project/client
     newName: salamy1/project-client:v1.8.1

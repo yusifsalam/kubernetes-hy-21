@@ -2,3 +2,4 @@ node_modules
 dist
 .next
 manifests/secret.yaml
+broadcaster/manifests/secret.yaml
