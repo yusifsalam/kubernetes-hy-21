@@ -1,4 +1,4 @@
-import { FastifyPluginAsync } from "fastify";
+import { FastifyPluginAsync, FastifyRequest } from "fastify";
 
 const todoController: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get("/api/todos", async (_req, res) => {
@@ -18,6 +18,25 @@ const todoController: FastifyPluginAsync = async (fastify): Promise<void> => {
     );
     req.log.info(`Created new Todo with text ${req.body}`);
     res.send(newTodo);
+  });
+
+  type PutRequest = FastifyRequest<{
+    Params: { id: number };
+  }>;
+
+  fastify.put("/api/todos/:id", async (req: PutRequest, res) => {
+    const client = await fastify.pg.connect();
+    const { id } = req.params;
+    const queryResult = await client.query(
+      `update todos set done = not done where id = $1`,
+      [id]
+    );
+    if (queryResult.rowCount === 0) {
+      req.log.error(`Todo with id ${id} does not exist, could not toggle it`);
+      res.code(500).send({ status: "failure" });
+    }
+    req.log.info(`Toggled Todo with id ${id} done param`);
+    res.send({ status: "success" });
   });
 };
 
