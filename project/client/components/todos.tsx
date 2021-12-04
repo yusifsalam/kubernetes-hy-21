@@ -70,15 +70,17 @@ const Todos = () => {
       </form>
       <div>
         <ul className="list-disc">
-          {todos.map((todo) => (
-            <li
-              className="hover:text-blue-400"
-              key={todo.id}
-              onClick={async () => await handleUpdate(todo.id)}
-            >
-              {todo.name} {todo.done && "✅"}
-            </li>
-          ))}
+          {todos
+            .sort((a, b) => a.id - b.id)
+            .map((todo) => (
+              <li
+                className="hover:text-blue-400"
+                key={todo.id}
+                onClick={async () => await handleUpdate(todo.id)}
+              >
+                {todo.name} {todo.done && "✅"}
+              </li>
+            ))}
         </ul>
       </div>
     </>
