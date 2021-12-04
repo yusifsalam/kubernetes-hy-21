@@ -57,4 +57,6 @@ I chose DIY because it's cooler and I already have it implemented. Doing everyth
 
 ## Exercise 4.06: Project 2.0
 
+As can be seen from the video below, there are 6 replicas of the broadcaster app running at the same time and they do not interfere with each other.
+
 https://user-images.githubusercontent.com/42574232/144722192-6e638dfe-8dd1-4602-b573-95b1a0ea211b.mov
