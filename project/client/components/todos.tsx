@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 interface Todo {
   id: number;
   name: string;
+  done: boolean;
 }
 
 const Todos = () => {
@@ -33,6 +34,20 @@ const Todos = () => {
     setNewTodo(e.target.value);
   };
 
+  const handleUpdate = async (id: number) => {
+    const res = await fetch(`/api/todos/${id}`, {
+      method: "put",
+    });
+    if (res.ok) {
+      const index = todos.findIndex((todo) => todo.id === id);
+      const todoCopy = [...todos];
+      todoCopy[index].done = !todoCopy[index].done;
+      setTodos(todoCopy);
+    } else {
+      console.error("update failed");
+    }
+  };
+
   if (!todos) return <div>No todos!</div>;
   return (
     <>
@@ -56,7 +71,13 @@ const Todos = () => {
       <div>
         <ul className="list-disc">
           {todos.map((todo) => (
-            <li key={todo.id}>{todo.name}</li>
+            <li
+              className="hover:text-blue-400"
+              key={todo.id}
+              onClick={async () => await handleUpdate(todo.id)}
+            >
+              {todo.name} {todo.done && "✅"}
+            </li>
           ))}
         </ul>
       </div>
