@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster-dep
+  namespace: project
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      labels:
+        app: broadcaster
+    spec:
+      containers:
+        - name: broadcaster
+          image: salamy1/project-broadcaster:v1.3
+          env:
+            - name: NATS_URL
+              value: nats://my-nats.default:4222
+            - name: TG_CHAT_ID
+              value: "@dwkreceiver"
+            - name: TG_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-secret
+                  key: TG_TOKEN
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "300Mi"
