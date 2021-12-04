@@ -13,6 +13,9 @@ const initDb = async (client: PoolClient) => {
     await client.query(
       `create table if not exists todos(id serial primary key, name text not null check (char_length(name) < 140));`
     );
+    await client.query(
+      "alter table todos add column if not exists done boolean not null default false"
+    );
     const dbAlreadyInitiated = await client
       .query("select * from todos where id = 2;")
       .then((res) => res.rows[0] !== undefined);
