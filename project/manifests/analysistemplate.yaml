@@ -6,10 +6,10 @@ metadata:
 spec:
   metrics:
     - name: cpu-rate
-      initialDelay: 10m
-      successCondition: result < 0.015
+      initialDelay: 1m
+      successCondition: result < 0.1
       provider:
         prometheus:
           address: http://kube-prometheus-stack-1638-prometheus.prometheus.svc.cluster.local:9090 # DNS name for my Prometheus, find yours with kubectl describe svc ...
           query: |
-            scalar(sum(rate(container_cpu_usage_seconds_total{namespace="project", container="kube-project-api"}[10m])))
+            scalar(sum(rate(container_cpu_usage_seconds_total{namespace="project", container="kube-project-api"}[1m])))
