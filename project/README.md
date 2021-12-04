@@ -54,3 +54,7 @@ I chose DIY because it's cooler and I already have it implemented. Doing everyth
 ## Exercise 4.03: Prometheus
 
 ![prometheus](./assets/prometheus.png)
+
+## Exercise 4.06: Project 2.0
+
+[![Video demo](./assets/demo-thumb.png)](./assets/demo.mov)
