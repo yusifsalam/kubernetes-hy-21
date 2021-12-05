@@ -60,3 +60,11 @@ I chose DIY because it's cooler and I already have it implemented. Doing everyth
 As can be seen from the video below, there are 6 replicas of the broadcaster app running at the same time and they do not interfere with each other.
 
 https://user-images.githubusercontent.com/42574232/144722192-6e638dfe-8dd1-4602-b573-95b1a0ea211b.mov
+
+## Exercise 4.07: GitOpsify Cluster
+
+Cluster config is stored at https://github.com/yusifsalam/kube-cluster-dwk
+
+Ping-pong app requires a secret for the postgres password, so a secret has to be created in the flux-system namespace. Assuming the age key file is `key.txt`, the command is:
+`cat key.txt | kubectl -n flux-system create secret generic sops-age \ --from-file=age.agekey=/dev/stdin`. The key has to end with "agekey" for flux to know that it's an age key file and be able to decrypt it.
+After creating the sops-age secret, we can run `flux reconcile kustomization my-secrets` to force a sync instead of waiting for 10m.
