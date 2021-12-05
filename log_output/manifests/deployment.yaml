@@ -38,10 +38,6 @@ spec:
               port: 3000
         - name: log-output-writer
           image: salamy1/log-writer:v0.3
-          resources:
-            limits:
-              cpu: "250m"
-              memory: "200Mi"
           volumeMounts:
             - mountPath: /usr/src/app/files
               name: shared-log-output
