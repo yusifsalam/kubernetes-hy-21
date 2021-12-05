@@ -1,21 +1,23 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: project
-resources:
-  - namespace.yaml
-  - secret.enc.yaml
-  - statefulset.yaml
-  - configmap.yaml
   # - rollout.yaml
-  - deployment.yaml
-  - service.yaml
-  - ingress.yaml
-  - persistentvolume.yaml
-  - persistentvolumeclaim.yaml
-  - cron.yaml
-  - analysistemplate.yaml
+resources:
+- namespace.yaml
+- secret.enc.yaml
+- statefulset.yaml
+- configmap.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- persistentvolume.yaml
+- persistentvolumeclaim.yaml
+- cron.yaml
+- analysistemplate.yaml
 images:
-  - name: project/api
-    newName: salamy1/project-api:v1.9.1
-  - name: project/client
-    newName: salamy1/project-client:v1.8.1
+- name: project/api
+  newName: salamy1/project-api
+  newTag: 7f89f96c50c89bea50eeb54f7ee3290c116af34c
+- name: project/client
+  newName: salamy1/project-client
+  newTag: 7f89f96c50c89bea50eeb54f7ee3290c116af34c
