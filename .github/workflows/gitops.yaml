@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - "./project/**"
+      - "project/**"
       - ".github/workflows/gitops.yml"
 
 jobs:
