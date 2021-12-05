@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: project
 resources:
   - namespace.yaml
-  - secret.yaml
+  - secret.enc.yaml
   - statefulset.yaml
   - configmap.yaml
   - rollout.yaml
