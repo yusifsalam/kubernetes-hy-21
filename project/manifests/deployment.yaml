@@ -29,6 +29,8 @@ spec:
                 secretKeyRef:
                   name: pg-password
                   key: POSTGRES_PASSWORD
+            - name: NATS_URL
+              value: nats://my-nats.default:4222
           volumeMounts:
             - name: random-image
               mountPath: /usr/src/app/files

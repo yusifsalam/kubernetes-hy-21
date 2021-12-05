@@ -6,7 +6,8 @@ resources:
   - secret.enc.yaml
   - statefulset.yaml
   - configmap.yaml
-  - rollout.yaml
+  # - rollout.yaml
+  - deployment.yaml
   - service.yaml
   - ingress.yaml
   - persistentvolume.yaml
