@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: project
 resources:
   - namespace.yaml
-  - prometheus-namespace.yaml
   - secret.enc.yaml
   - statefulset.yaml
   - configmap.yaml
