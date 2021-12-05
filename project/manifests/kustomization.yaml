@@ -3,15 +3,17 @@ kind: Kustomization
 namespace: project
 resources:
   - namespace.yaml
+  - prometheus-namespace.yaml
   - secret.enc.yaml
   - statefulset.yaml
   - configmap.yaml
-  - deployment.yaml
+  - rollout.yaml
   - service.yaml
   - ingress.yaml
   - persistentvolume.yaml
   - persistentvolumeclaim.yaml
   - cron.yaml
+  - analysistemplate.yaml
 images:
   - name: project/api
     newName: salamy1/project-api:v1.9.1
