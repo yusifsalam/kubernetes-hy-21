@@ -17,7 +17,7 @@ resources:
 images:
 - name: project/api
   newName: salamy1/project-api
-  newTag: 7f89f96c50c89bea50eeb54f7ee3290c116af34c
+  newTag: 27b58e57a98308c621e1cf36f58dbbe75fda1dbc
 - name: project/client
   newName: salamy1/project-client
-  newTag: 7f89f96c50c89bea50eeb54f7ee3290c116af34c
+  newTag: 27b58e57a98308c621e1cf36f58dbbe75fda1dbc
