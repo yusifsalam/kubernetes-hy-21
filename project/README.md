@@ -547,3 +547,35 @@ Rancher:
 - no RedHat level support 👎
 
 Because I don't use any other RedHat products, the choice is pretty clearly in favor of Rancher for my personal use cases.
+
+## Exercise 5.06: Landscape
+
+![landscape](./assets/landscape.png)
+
+I've directly used:
+
+1. MongoDB in fullstackopen
+1. Postgres is my default database choice
+1. Redis for key-value store
+1. NATS for application message queues
+1. Helm to install dependencies
+1. Gradle in Java projects
+1. Bitnami containers for ease of setting up Redis in Docker
+1. Flux in this course
+1. CircleCI in ohjelmistotekniikka/ohjelmistotuotanto
+1. Github and Gitlab for coding projects
+1. Google cloud run in this course
+1. Flagger for linkerd
+1. Travis CI in some course
+1. Rancher and k3s in this course
+1. GKE in this course
+1. Contour to run serverless knative
+1. Nginx as a proxy
+1. Traefik as kubernetes proxy
+1. Linkerd for service meshes
+1. GCR to store docker images
+1. Prometheus for monitoring
+1. Grafana for monitoring
+1. Loki for logging
+
+I've indirectly used too many services to list/care about.
