@@ -522,3 +522,28 @@ kubernetes on  master [?⇡] on ☁️ took 56s
 
 </details>
 ```
+
+## Exercise 5.04: Platform comparison
+
+I'm comparing Rancher and OpenShift.
+
+I've arbitrarily decided that I like Rancher better simply based on the fact that the OpenShift website has a fake cookie processing delay.
+
+OpenShift:
+
+- backed by RedHat 👍
+- works well within the RedHat ecosystem 👍
+- very much enterprise 👎
+- uses its own Kubernetes distribution, enterprise isn't open source 👎
+- slow to install 👎
+- slow and painful to upgrade 👎
+
+Rancher:
+
+- not as enterprise 👍
+- quick to install 👍
+- quick and painless upgrades 👍
+- creator of k3s 👍
+- no RedHat level support 👎
+
+Because I don't use any other RedHat products, the choice is pretty clearly in favor of Rancher for my personal use cases.
