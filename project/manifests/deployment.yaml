@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: project
   name: project-dep
+  namespace: project
 spec:
   replicas: 1
   selector:
@@ -10,48 +10,50 @@ spec:
       app: kube-project
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: kube-project
     spec:
       containers:
-        - name: kube-project-api
-          image: project/api
-          resources:
-            limits:
-              cpu: "300m"
-              memory: "300Mi"
-          envFrom:
-            - configMapRef:
-                name: pg-config
-          env:
+        - env:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-password
                   key: POSTGRES_PASSWORD
+                  name: pg-password
             - name: NATS_URL
               value: nats://my-nats.default:4222
-          volumeMounts:
-            - name: random-image
-              mountPath: /usr/src/app/files
-          readinessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 5
+          envFrom:
+            - configMapRef:
+                name: pg-config
+          image: project/api
+          livenessProbe:
             httpGet:
               path: /healthz
               port: 4000
-          livenessProbe:
             initialDelaySeconds: 30
             periodSeconds: 10
+          name: kube-project-api
+          readinessProbe:
             httpGet:
               path: /healthz
               port: 4000
-        - name: kube-project-client
-          image: project/client
+            initialDelaySeconds: 10
+            periodSeconds: 5
           resources:
             limits:
-              cpu: "300m"
-              memory: "700Mi"
+              cpu: 300m
+              memory: 300Mi
+          volumeMounts:
+            - mountPath: /usr/src/app/files
+              name: random-image
+        - image: project/client
+          name: kube-project-client
+          resources:
+            limits:
+              cpu: 300m
+              memory: 700Mi
       volumes:
         - name: random-image
           persistentVolumeClaim:

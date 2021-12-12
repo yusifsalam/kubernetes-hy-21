@@ -10,13 +10,13 @@ spec:
       app: broadcaster
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: broadcaster
     spec:
       containers:
-        - name: broadcaster
-          image: salamy1/project-broadcaster:v1.3
-          env:
+        - env:
             - name: NATS_URL
               value: nats://my-nats.default:4222
             - name: TG_CHAT_ID
@@ -24,9 +24,11 @@ spec:
             - name: TG_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: telegram-secret
                   key: TG_TOKEN
+                  name: telegram-secret
+          image: salamy1/project-broadcaster:v1.3
+          name: broadcaster
           resources:
             limits:
-              cpu: "200m"
-              memory: "300Mi"
+              cpu: 200m
+              memory: 300Mi

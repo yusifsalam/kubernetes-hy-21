@@ -1,18 +1,21 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  namespace: project
   name: daily-todo
+  namespace: project
 spec:
-  schedule: "@daily"
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            linkerd.io/inject: enabled
         spec:
           containers:
-          - name: daily-todo
-            image: salamy1/deno-cron:v1.3
-            env:
-              - name: uri
-                value: "http://kube-project-svc:2345/api/todos"
-          restartPolicy: Never # This time we'll run it only once
+            - env:
+                - name: uri
+                  value: http://kube-project-svc:2345/api/todos
+              image: salamy1/deno-cron:v1.3
+              name: daily-todo
+          restartPolicy: Never
+  schedule: "@daily"
