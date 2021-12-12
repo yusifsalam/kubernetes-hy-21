@@ -75,6 +75,7 @@ After creating the sops-age secret, we can run `flux reconcile kustomization my-
 
 <details> 
 <summary>Code output</summary>
+
 ```
 kubernetes on  master [?⇡] on ☁️
 ❯ kubectl apply -k github.com/fluxcd/flagger/kustomize/linkerd
