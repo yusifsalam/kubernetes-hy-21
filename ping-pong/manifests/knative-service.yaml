@@ -1,0 +1,28 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  namespace: apps
+  name: ping-pong-serverless
+spec:
+  template:
+    metadata:
+      name: ping-pong-serverless-v1
+    spec:
+      containers:
+        - name: ping-pong
+          image: salamy1/ping-pong:v1.1
+          resources:
+            limits:
+              cpu: "150m"
+              memory: "100Mi"
+          envFrom:
+            - configMapRef:
+                name: pg-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-password
+                  key: POSTGRES_PASSWORD
+            - name: MY_PORT
+              value: "8080"
